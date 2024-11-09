@@ -1,3 +1,4 @@
+// Funções importadas do firebase.js
 import { registerUser, loginUser, logoutUser, saveRun, getRuns } from './firebase.js';
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -14,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
       userEmailDisplay.textContent = `Logado como: ${user.email}`;
       loadRuns();
     } else {
-      window.location.href = 'login.html'; // Redirecionar para login se não estiver logado
+      window.location.href = 'login.html'; // Redireciona para o login se não estiver logado
     }
   });
 
@@ -26,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const password = loginForm['password'].value;
       loginUser(email, password)
         .then(() => {
-          window.location.href = 'dashboard.html'; // Redirecionar para o dashboard após login
+          window.location.href = 'dashboard.html'; // Redireciona para o dashboard após login
         })
         .catch(err => alert('Erro ao fazer login: ' + err.message));
     });
@@ -51,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutButton.addEventListener("click", () => {
       logoutUser()
         .then(() => {
-          window.location.href = 'login.html'; // Redirecionar para login após logout
+          window.location.href = 'login.html'; // Redireciona para login após logout
         })
         .catch(err => console.error('Erro ao sair:', err));
     });
@@ -97,4 +98,20 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch(err => console.error('Erro ao aprovar a run:', err));
   };
+
+  // Função para salvar uma nova run
+  const saveRunForm = document.getElementById("save-run-form");
+  if (saveRunForm) {
+    saveRunForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const score = saveRunForm['score'].value;
+      const user = firebase.auth().currentUser.email; // Pega o e-mail do usuário logado
+      saveRun(user, score)
+        .then(() => {
+          alert('Run salva com sucesso!');
+          loadRuns(); // Atualiza as runs
+        })
+        .catch(err => console.error('Erro ao salvar a run:', err));
+    });
+  }
 });
