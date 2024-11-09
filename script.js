@@ -1,25 +1,18 @@
-// Inicialize o Firebase
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { firebaseConfig } from './firebase';
+// Supondo que você tenha um formulário com id 'loginForm'
+const loginForm = document.getElementById('loginForm');
 
-// Configuração do Firebase
-const auth = getAuth();
-firebase.initializeApp(firebaseConfig);
+loginForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const email = event.target.email.value;
+  const password = event.target.password.value;
 
-// Função de login
-function loginUser() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
-    signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // Usuário logado com sucesso
-            const user = userCredential.user;
-            console.log('Usuário logado:', user);
-            window.location.href = "/dashboard"; // Redirecionar para uma página de sucesso
-        })
-        .catch((error) => {
-            const errorMessage = error.message;
-            document.getElementById('login-error').innerText = `Erro: ${errorMessage}`;
-        });
-}
+  loginUser(email, password)
+    .then((user) => {
+      // Se o login for bem-sucedido, redirecione ou exiba conteúdo
+      console.log('Login bem-sucedido!', user);
+      window.location.href = "/dashboard";  // Exemplo de redirecionamento
+    })
+    .catch((error) => {
+      console.error('Erro ao fazer login:', error.message);
+    });
+});
