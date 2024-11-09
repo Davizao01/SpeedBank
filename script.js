@@ -1,21 +1,25 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Exemplo de como carregar as runs (você precisaria de um backend que fornecesse isso)
-    fetch('/runs/pending')
-        .then(response => response.json())
-        .then(data => {
-            const runsList = document.getElementById("runs-list");
-            data.runs.forEach(run => {
-                const li = document.createElement("li");
-                li.innerHTML = `${run.name} - ${run.category} <button onclick="approveRun(${run.id})">Aprovar</button>`;
-                runsList.appendChild(li);
-            });
-        });
-});
+// Inicialize o Firebase
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { firebaseConfig } from './firebase';
 
-function approveRun(runId) {
-    fetch(`/approve-run/${runId}`, { method: 'POST' })
-        .then(response => response.json())
-        .then(data => {
-            alert("Run aprovada com sucesso!");
+// Configuração do Firebase
+const auth = getAuth();
+firebase.initializeApp(firebaseConfig);
+
+// Função de login
+function loginUser() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Usuário logado com sucesso
+            const user = userCredential.user;
+            console.log('Usuário logado:', user);
+            window.location.href = "/dashboard"; // Redirecionar para uma página de sucesso
+        })
+        .catch((error) => {
+            const errorMessage = error.message;
+            document.getElementById('login-error').innerText = `Erro: ${errorMessage}`;
         });
 }
