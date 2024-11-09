@@ -14,9 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
       // Usuário logado
       userEmailDisplay.textContent = `Logado como: ${user.email}`;
       loadRuns(); // Carrega as runs no dashboard
-      // Redireciona para o dashboard caso o usuário já tenha feito login
+
+      // Redireciona para a página principal se o usuário já estiver logado
       if (window.location.pathname === '/login.html' || window.location.pathname === '/register.html') {
-        window.location.href = 'dashboard.html'; 
+        window.location.href = 'index.html'; 
       }
     } else {
       // Usuário não logado
@@ -34,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const password = loginForm['password'].value;
       loginUser(email, password)
         .then(() => {
-          window.location.href = 'dashboard.html'; // Redireciona para o dashboard após login
+          window.location.href = 'index.html'; // Redireciona para a página principal após login
         })
         .catch(err => alert('Erro ao fazer login: ' + err.message));
     });
