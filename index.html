@@ -14,6 +14,7 @@
   <main>
     <h2>Categorias de Speedrun</h2>
     <ul id="categories">
+      <!-- As categorias podem ser carregadas dinamicamente do Firebase -->
       <li>1000R$ %</li>
       <li>2000R$ %</li>
       <li>10000R$ %</li>
@@ -29,9 +30,15 @@
     </form>
 
     <div id="userStatus">
-      <button onclick="location.href='login.html'">Login</button>
+      <!-- Se o usuário estiver logado, o botão de login deve sumir -->
+      <button id="loginButton" onclick="location.href='login.html'">Login</button>
+      <button id="logoutButton" style="display: none;">Sair</button>
     </div>
   </main>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
 
   <script src="firebase.js"></script>
   <script src="script.js"></script>
