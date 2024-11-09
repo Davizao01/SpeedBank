@@ -3,32 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - Aprovação de Runs</title>
+  <title>Dashboard - SpeedBank</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <h1>Dashboard - Aprovação de Speedruns</h1>
+    <div class="logo">
+      <h1>SpeedBank</h1>
+    </div>
+    <div class="user-info">
+      <span id="user-email"></span> 
+      <button id="logout-btn">Sair</button>
+    </div>
   </header>
 
-  <main>
-    <h2>Runs Pendentes</h2>
-    <table id="runsTable">
-      <thead>
-        <tr>
-          <th>Categoria</th>
-          <th>Tempo</th>
-          <th>Detalhes</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Runs pendentes serão inseridas aqui via JS -->
-      </tbody>
-    </table>
-  </main>
+  <div class="dashboard">
+    <h2>Speedrun - Aprovação</h2>
+    
+    <div id="runs-list">
+      <!-- As runs aprovadas e não aprovadas vão aparecer aqui -->
+    </div>
+
+    <div id="approvals">
+      <h3>Aprovação de Runs</h3>
+      <ul id="runs-to-approve">
+        <!-- Listagem de runs a serem aprovadas -->
+      </ul>
+    </div>
+  </div>
 
   <script src="firebase.js"></script>
-  <script src="script.js"></script>
+  <script src="dashboard.js"></script>
 </body>
 </html>
