@@ -1,7 +1,9 @@
+// Importando os métodos do Firebase
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import 'firebase/database'; // Para o gerenciamento de dados no Firebase
+import 'firebase/database'; // Para manipulação do Realtime Database
 
+// Configuração do Firebase
 const firebaseConfig = {
   apiKey: 'AIzaSyBiZLQyXq4yCRbX3k7A3K5j5fA2r9JO2VE',
   authDomain: 'speedbank-10cda.firebaseapp.com',
@@ -12,9 +14,10 @@ const firebaseConfig = {
   measurementId: 'G-2ZQ7LZK29F'
 };
 
+// Inicializando o Firebase com as configurações do seu projeto
 firebase.initializeApp(firebaseConfig);
 
-// Função para registrar o usuário
+// Função para registrar um novo usuário
 export const registerUser = (email, password) => {
   return firebase.auth().createUserWithEmailAndPassword(email, password);
 };
@@ -29,15 +32,15 @@ export const logoutUser = () => {
   return firebase.auth().signOut();
 };
 
-// Função para salvar uma nova run no banco de dados
+// Função para salvar uma nova run no Firebase
 export const saveRun = (runData) => {
   const db = firebase.database();
-  const runRef = db.ref('runs').push(); // Referência ao local onde as runs serão armazenadas
-  return runRef.set(runData); // Salvar dados da run
+  const runRef = db.ref('runs').push(); // Pega uma referência única para uma nova run
+  return runRef.set(runData); // Salva os dados da run
 };
 
-// Função para recuperar as runs
+// Função para pegar todas as runs armazenadas
 export const getRuns = () => {
   const db = firebase.database();
-  return db.ref('runs').once('value'); // Pega todos os dados de runs armazenados
+  return db.ref('runs').once('value'); // Pega os dados das runs armazenadas no Firebase
 };
