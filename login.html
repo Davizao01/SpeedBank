@@ -4,27 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - SpeedBank</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Login - SpeedBank</h1>
-  </header>
-
-  <main>
-    <h2>Faça Login</h2>
+  <div class="container">
+    <h1>Login no SpeedBank</h1>
     <form id="loginForm">
-      <input type="email" id="email" placeholder="E-mail" required>
-      <input type="password" id="password" placeholder="Senha" required>
+      <div class="input-group">
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" placeholder="Digite seu e-mail" required>
+      </div>
+      <div class="input-group">
+        <label for="password">Senha:</label>
+        <input type="password" id="password" placeholder="Digite sua senha" required>
+      </div>
       <button type="submit">Entrar</button>
     </form>
-
-    <div id="registerLink">
-      <p>Não tem uma conta? <a href="register.html">Registre-se aqui</a></p>
-    </div>
-  </main>
+    <p>Não tem uma conta? <a href="register.html">Cadastre-se</a></p>
+  </div>
 
   <script src="firebase.js"></script>
-  <script src="script.js"></script>
+  <script src="login.js"></script>
 </body>
 </html>
