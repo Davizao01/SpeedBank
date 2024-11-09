@@ -8,13 +8,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const runsList = document.getElementById("runs-list");
   const runsToApprove = document.getElementById("runs-to-approve");
 
-  // Exibir o e-mail do usuário logado
+  // Verifica se o usuário está logado
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
+      // Usuário logado
       userEmailDisplay.textContent = `Logado como: ${user.email}`;
-      loadRuns();
+      loadRuns(); // Carrega as runs no dashboard
+      // Redireciona para o dashboard caso o usuário já tenha feito login
+      if (window.location.pathname === '/login.html' || window.location.pathname === '/register.html') {
+        window.location.href = 'dashboard.html'; 
+      }
     } else {
-      window.location.href = 'login.html'; // Redireciona para o login se não estiver logado
+      // Usuário não logado
+      if (window.location.pathname !== '/login.html' && window.location.pathname !== '/register.html') {
+        window.location.href = 'login.html'; // Redireciona para login se não estiver logado
+      }
     }
   });
 
