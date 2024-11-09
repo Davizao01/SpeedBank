@@ -1,118 +1,54 @@
 // script.js
+document.addEventListener('DOMContentLoaded', () => {
+  const loginButton = document.getElementById('loginButton');
+  const logoutButton = document.getElementById('logoutButton');
 
-import { registerUser, loginUser, logoutUser, saveRun, getRuns } from './firebase.js';
-
-document.addEventListener("DOMContentLoaded", () => {
-  const loginForm = document.getElementById("login-form");
-  const registerForm = document.getElementById("register-form");
-  const logoutButton = document.getElementById("logout-btn");
-  const userEmailDisplay = document.getElementById("user-email");
-  const runsList = document.getElementById("runs-list");
-  const runsToApprove = document.getElementById("runs-to-approve");
-
-  // Exibir o e-mail do usuário logado
-  firebase.auth().onAuthStateChanged(user => {
+  // Verifica se o usuário está logado
+  firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      userEmailDisplay.textContent = `Logado como: ${user.email}`;
-      loadRuns();
+      loginButton.style.display = 'none';
+      logoutButton.style.display = 'inline-block';
     } else {
-      window.location.href = 'login.html'; // Redireciona para login se não estiver logado
+      loginButton.style.display = 'inline-block';
+      logoutButton.style.display = 'none';
     }
   });
 
-  // Login
-  if (loginForm) {
-    loginForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const email = loginForm['email'].value;
-      const password = loginForm['password'].value;
-      loginUser(email, password)
-        .then(() => {
-          window.location.href = 'dashboard.html'; // Redireciona para o dashboard após login
-        })
-        .catch(err => alert('Erro ao fazer login: ' + err.message));
+  // Evento para logout
+  logoutButton.addEventListener('click', () => {
+    firebase.auth().signOut().then(() => {
+      window.location.href = 'login.html';
+    }).catch((error) => {
+      console.error("Erro ao sair:", error);
     });
-  }
+  });
 
-  // Registro
-  if (registerForm) {
-    registerForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const email = registerForm['email'].value;
-      const password = registerForm['password'].value;
-      registerUser(email, password)
-        .then(() => {
-          window.location.href = 'login.html'; // Redireciona para o login após registro
-        })
-        .catch(err => alert('Erro ao registrar: ' + err.message));
-    });
-  }
+  // Envio de Speedrun
+  const speedrunForm = document.getElementById('speedrunForm');
+  speedrunForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // Previne o comportamento padrão de envio do formulário
 
-  // Logout
-  if (logoutButton) {
-    logoutButton.addEventListener("click", () => {
-      logoutUser()
-        .then(() => {
-          window.location.href = 'login.html'; // Redireciona para login após logout
-        })
-        .catch(err => console.error('Erro ao sair:', err));
-    });
-  }
+    const category = document.getElementById('runCategory').value;
+    const time = document.getElementById('runTime').value;
+    const details = document.getElementById('runDetails').value;
 
-  // Função para carregar as runs
-  function loadRuns() {
-    getRuns().then(snapshot => {
-      const runs = snapshot.val(); // Pega os dados do Firebase
-
-      // Exibir as runs pendentes e aprovadas
-      runsList.innerHTML = '';
-      runsToApprove.innerHTML = '';
-      Object.keys(runs).forEach(runId => {
-        const run = runs[runId];
-        const runItem = document.createElement('div');
-        runItem.className = 'run-item';
-        runItem.innerHTML = `
-          <span>${run.user} - ${run.score} (${run.status})</span>
-        `;
-        runsList.appendChild(runItem);
-
-        // Exibir as runs pendentes para aprovação
-        if (run.status === 'Pendente') {
-          const approvalItem = document.createElement('li');
-          approvalItem.innerHTML = `
-            <span>${run.user} - ${run.score}</span>
-            <button onclick="approveRun('${runId}')">Aprovar</button>
-          `;
-          runsToApprove.appendChild(approvalItem);
-        }
+    const user = firebase.auth().currentUser;
+    if (user) {
+      const runId = 'run_' + Date.now();
+      firebase.database().ref('runs/' + runId).set({
+        user: user.email,
+        category,
+        time,
+        details,
+        status: 'Pendente'
+      }).then(() => {
+        alert('Speedrun enviada com sucesso!');
+        speedrunForm.reset();
+      }).catch((error) => {
+        console.error('Erro ao enviar a run:', error);
       });
-    });
-  }
-
-  // Função para aprovar uma run
-  window.approveRun = (runId) => {
-    const db = firebase.database();
-    const runRef = db.ref('runs').child(runId);
-    runRef.update({ status: 'Aprovada' }) // Altera o status da run para 'Aprovada'
-      .then(() => {
-        loadRuns(); // Atualiza a lista de runs após a aprovação
-      })
-      .catch(err => console.error('Erro ao aprovar a run:', err));
-  };
-
-  // Função para salvar uma nova run
-  const saveRunForm = document.getElementById("save-run-form");
-  if (saveRunForm) {
-    saveRunForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const score = saveRunForm['score'].value;
-      const user = firebase.auth().currentUser.email; // Pega o e-mail do usuário logado
-      saveRun(user, score)
-        .then(() => {
-          alert('Run salva com sucesso!');
-          loadRuns(); // Atualiza as runs
-        })
-        .catch(err => console.error('Erro ao salvar a run:', err));
-    });
-  }
+    } else {
+      alert('Você precisa estar logado para enviar uma run!');
+    }
+  });
 });
