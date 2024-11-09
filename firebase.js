@@ -1,42 +1,50 @@
-// Configuração do Firebase
+// Firebase Configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBiZLQyXq4yCRbX3k7A3K5j5fA2r9JO2VE",  // Sua chave de API
+  apiKey: "AIzaSyBiZLQyXq4yCRbX3k7A3K5j5fA2r9JO2VE",
   authDomain: "speedbank-10cda.firebaseapp.com",
+  databaseURL: "https://speedbank-10cda-default-rtdb.firebaseio.com",
   projectId: "speedbank-10cda",
   storageBucket: "speedbank-10cda.appspot.com",
-  messagingSenderId: "853674675010",
-  appId: "1:853674675010:web:24d01b89b53c541f4c63ea"
+  messagingSenderId: "567467478567",
+  appId: "1:567467478567:web:123456789abcdef0",
+  measurementId: "G-EXAMPLE"
 };
 
-// Inicializa o Firebase
+// Inicializar o Firebase
 firebase.initializeApp(firebaseConfig);
 
-// Funções de Autenticação
-export const registerUser = (email, password) => {
-  return firebase.auth().createUserWithEmailAndPassword(email, password);
-};
+// Funções para login, logout, registro e manipulação das runs
+const auth = firebase.auth();
+const db = firebase.database();
 
-export const loginUser = (email, password) => {
-  return firebase.auth().signInWithEmailAndPassword(email, password);
-};
+// Registrar usuário
+function registerUser(email, password) {
+  return auth.createUserWithEmailAndPassword(email, password);
+}
 
-export const logoutUser = () => {
-  return firebase.auth().signOut();
-};
+// Login de usuário
+function loginUser(email, password) {
+  return auth.signInWithEmailAndPassword(email, password);
+}
 
-// Funções de Run
-export const saveRun = (user, score) => {
-  const db = firebase.database();
-  const runRef = db.ref('runs').push(); // Cria uma nova entrada de run
-  return runRef.set({
+// Logout de usuário
+function logoutUser() {
+  return auth.signOut();
+}
+
+// Salvar uma run no banco de dados
+function saveRun(user, score) {
+  const runId = db.ref('runs').push().key; // Gera um ID único para cada run
+  return db.ref('runs/' + runId).set({
     user: user,
     score: score,
-    status: 'Pendente' // Inicia com o status "Pendente"
+    status: 'Pendente'
   });
-};
+}
 
-export const getRuns = () => {
-  const db = firebase.database();
-  const runRef = db.ref('runs');
-  return runRef.once('value'); // Pega as runs do Firebase
-};
+// Recuperar todas as runs do banco de dados
+function getRuns() {
+  return db.ref('runs').once('value');
+}
+
+export { registerUser, loginUser, logoutUser, saveRun, getRuns };
