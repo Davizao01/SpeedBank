@@ -4,7 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SpeedBank - Speedrun</title>
+  <!-- Link para o CSS -->
   <link rel="stylesheet" href="styles.css">
+  
+  <!-- Incluindo o Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js"></script>
 </head>
 <body>
   <header>
@@ -12,32 +18,36 @@
   </header>
 
   <main>
-    <h2>Categorias de Speedrun</h2>
-    <ul id="categories">
-      <li>1000R$ %</li>
-      <li>2000R$ %</li>
-      <li>10000R$ %</li>
-      <li>1M R$ %</li>
-    </ul>
+    <section>
+      <h2>Categorias de Speedrun</h2>
+      <ul id="categories">
+        <li>1000R$ %</li>
+        <li>2000R$ %</li>
+        <li>10000R$ %</li>
+        <li>1M R$ %</li>
+      </ul>
+    </section>
 
-    <h3>Enviar sua Speedrun</h3>
-    <form id="speedrunForm">
-      <input type="text" id="runCategory" placeholder="Escolha uma categoria" required>
-      <input type="text" id="runTime" placeholder="Tempo da run" required>
-      <textarea id="runDetails" placeholder="Detalhes da run" required></textarea>
-      <button type="submit">Submeter Run</button>
-    </form>
+    <section>
+      <h3>Enviar sua Speedrun</h3>
+      <form id="speedrunForm">
+        <input type="text" id="runCategory" placeholder="Escolha uma categoria" required>
+        <input type="text" id="runTime" placeholder="Tempo da run" required>
+        <textarea id="runDetails" placeholder="Detalhes da run" required></textarea>
+        <button type="submit">Submeter Run</button>
+      </form>
+    </section>
 
-    <div id="userStatus">
+    <section id="userStatus">
       <button onclick="location.href='login.html'">Login</button>
-    </div>
+    </section>
+    
+    <!-- Feedback para o usuário -->
+    <div id="feedback" class="hidden"></div>
   </main>
 
-  <!-- Scripts Firebase via CDN -->
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
-
-  <script type="module" src="script.js"></script> <!-- Seu script.js -->
+  <!-- Scripts -->
+  <script src="firebase.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
