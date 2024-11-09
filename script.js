@@ -1,3 +1,5 @@
+// script.js
+
 import { registerUser, loginUser, logoutUser, saveRun, getRuns } from './firebase.js';
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -8,22 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const runsList = document.getElementById("runs-list");
   const runsToApprove = document.getElementById("runs-to-approve");
 
-  // Verifica se o usuário está logado
+  // Exibir o e-mail do usuário logado
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
-      // Usuário logado
       userEmailDisplay.textContent = `Logado como: ${user.email}`;
-      loadRuns(); // Carrega as runs no dashboard
-
-      // Redireciona para a página principal se o usuário já estiver logado
-      if (window.location.pathname === '/login.html' || window.location.pathname === '/register.html') {
-        window.location.href = 'index.html'; 
-      }
+      loadRuns();
     } else {
-      // Usuário não logado
-      if (window.location.pathname !== '/login.html' && window.location.pathname !== '/register.html') {
-        window.location.href = 'login.html'; // Redireciona para login se não estiver logado
-      }
+      window.location.href = 'login.html'; // Redireciona para login se não estiver logado
     }
   });
 
@@ -35,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const password = loginForm['password'].value;
       loginUser(email, password)
         .then(() => {
-          window.location.href = 'index.html'; // Redireciona para a página principal após login
+          window.location.href = 'dashboard.html'; // Redireciona para o dashboard após login
         })
         .catch(err => alert('Erro ao fazer login: ' + err.message));
     });
