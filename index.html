@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeedBank.com</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>SpeedBank.com</h1>
+    </header>
+
+    <!-- Login Form -->
+    <div id="login-form" class="form-container">
+        <h2>Login</h2>
+        <form id="login" action="/login" method="POST">
+            <input type="text" id="username" name="username" placeholder="Nome de usuário" required>
+            <input type="password" id="password" name="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+
+    <!-- Speedrun Categories -->
+    <div class="categories">
+        <h2>Escolha sua categoria de Speedrun</h2>
+        <ul>
+            <li><a href="/runs?category=1000R$">1000R$ %</a></li>
+            <li><a href="/runs?category=2000R$">2000R$ %</a></li>
+            <li><a href="/runs?category=10000R$">10000R$ %</a></li>
+            <li><a href="/runs?category=1M R$">1M R$ %</a></li>
+        </ul>
+    </div>
+
+    <!-- Speedrun Runs -->
+    <div class="runs">
+        <h3>Speedruns em espera para aprovação</h3>
+        <ul id="runs-list">
+            <!-- A lista de runs será preenchida dinamicamente com JavaScript -->
+        </ul>
+    </div>
+
+    <footer>
+        <p>© 2024 SpeedBank.com</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
