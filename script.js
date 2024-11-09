@@ -1,4 +1,3 @@
-// Funções importadas do firebase.js
 import { registerUser, loginUser, logoutUser, saveRun, getRuns } from './firebase.js';
 
 document.addEventListener("DOMContentLoaded", () => {
