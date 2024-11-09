@@ -1,46 +1,42 @@
-// Importando os métodos do Firebase
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database'; // Para manipulação do Realtime Database
-
 // Configuração do Firebase
 const firebaseConfig = {
-  apiKey: 'AIzaSyBiZLQyXq4yCRbX3k7A3K5j5fA2r9JO2VE',
-  authDomain: 'speedbank-10cda.firebaseapp.com',
-  projectId: 'speedbank-10cda',
-  storageBucket: 'speedbank-10cda.appspot.com',
-  messagingSenderId: '199708705722',
-  appId: '1:199708705722:web:4e9b9280c5b60e8c14f734',
-  measurementId: 'G-2ZQ7LZK29F'
+  apiKey: "AIzaSyBiZLQyXq4yCRbX3k7A3K5j5fA2r9JO2VE",  // Sua chave de API
+  authDomain: "speedbank-10cda.firebaseapp.com",
+  projectId: "speedbank-10cda",
+  storageBucket: "speedbank-10cda.appspot.com",
+  messagingSenderId: "853674675010",
+  appId: "1:853674675010:web:24d01b89b53c541f4c63ea"
 };
 
-// Inicializando o Firebase com as configurações do seu projeto
+// Inicializa o Firebase
 firebase.initializeApp(firebaseConfig);
 
-// Função para registrar um novo usuário
+// Funções de Autenticação
 export const registerUser = (email, password) => {
   return firebase.auth().createUserWithEmailAndPassword(email, password);
 };
 
-// Função para logar o usuário
 export const loginUser = (email, password) => {
   return firebase.auth().signInWithEmailAndPassword(email, password);
 };
 
-// Função para deslogar o usuário
 export const logoutUser = () => {
   return firebase.auth().signOut();
 };
 
-// Função para salvar uma nova run no Firebase
-export const saveRun = (runData) => {
+// Funções de Run
+export const saveRun = (user, score) => {
   const db = firebase.database();
-  const runRef = db.ref('runs').push(); // Pega uma referência única para uma nova run
-  return runRef.set(runData); // Salva os dados da run
+  const runRef = db.ref('runs').push(); // Cria uma nova entrada de run
+  return runRef.set({
+    user: user,
+    score: score,
+    status: 'Pendente' // Inicia com o status "Pendente"
+  });
 };
 
-// Função para pegar todas as runs armazenadas
 export const getRuns = () => {
   const db = firebase.database();
-  return db.ref('runs').once('value'); // Pega os dados das runs armazenadas no Firebase
+  const runRef = db.ref('runs');
+  return runRef.once('value'); // Pega as runs do Firebase
 };
