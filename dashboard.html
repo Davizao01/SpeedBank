@@ -1,38 +1,20 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - SpeedBank</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header>
-    <div class="logo">
-      <h1>SpeedBank</h1>
-    </div>
-    <div class="user-info">
-      <span id="user-email"></span> 
-      <button id="logout-btn">Sair</button>
-    </div>
-  </header>
+<!-- Formulário para salvar uma run -->
+<div>
+  <h3>Salvar uma Run</h3>
+  <form id="save-run-form">
+    <input type="text" id="score" name="score" placeholder="Pontuação" required>
+    <button type="submit">Salvar Run</button>
+  </form>
+</div>
 
-  <div class="dashboard">
-    <h2>Speedrun - Aprovação</h2>
-    
-    <div id="runs-list">
-      <!-- As runs aprovadas e não aprovadas vão aparecer aqui -->
-    </div>
+<!-- Lista de runs pendentes -->
+<div>
+  <h3>Runs Pendentes</h3>
+  <ul id="runs-to-approve"></ul>
+</div>
 
-    <div id="approvals">
-      <h3>Aprovação de Runs</h3>
-      <ul id="runs-to-approve">
-        <!-- Listagem de runs a serem aprovadas -->
-      </ul>
-    </div>
-  </div>
-
-  <script src="firebase.js"></script>
-  <script src="dashboard.js"></script>
-</body>
-</html>
+<!-- Lista de runs aprovadas -->
+<div>
+  <h3>Runs Aprovadas</h3>
+  <div id="runs-list"></div>
+</div>
