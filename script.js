@@ -1,32 +1,100 @@
-// Importando os métodos do Firebase
-import firebase from 'firebase/app';
-import 'firebase/auth'; // Para autenticação
+import { registerUser, loginUser, logoutUser, saveRun, getRuns } from './firebase.js';
 
-// Sua configuração do Firebase
-const firebaseConfig = {
-  apiKey: 'AIzaSyBiZLQyXq4yCRbX3k7A3K5j5fA2r9JO2VE',
-  authDomain: 'speedbank-10cda.firebaseapp.com',
-  projectId: 'speedbank-10cda',
-  storageBucket: 'speedbank-10cda.appspot.com',
-  messagingSenderId: '199708705722',
-  appId: '1:199708705722:web:4e9b9280c5b60e8c14f734',
-  measurementId: 'G-2ZQ7LZK29F'
-};
+document.addEventListener("DOMContentLoaded", () => {
+  const loginForm = document.getElementById("login-form");
+  const registerForm = document.getElementById("register-form");
+  const logoutButton = document.getElementById("logout-btn");
+  const userEmailDisplay = document.getElementById("user-email");
+  const runsList = document.getElementById("runs-list");
+  const runsToApprove = document.getElementById("runs-to-approve");
 
-// Inicializando o Firebase com as configurações do seu projeto
-firebase.initializeApp(firebaseConfig);
+  // Exibir o e-mail do usuário logado
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      userEmailDisplay.textContent = `Logado como: ${user.email}`;
+      loadRuns();
+    } else {
+      window.location.href = 'login.html'; // Redirecionar para login se não estiver logado
+    }
+  });
 
-// Função para registrar o usuário
-export const registerUser = (email, password) => {
-  return firebase.auth().createUserWithEmailAndPassword(email, password);
-};
+  // Login
+  if (loginForm) {
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const email = loginForm['email'].value;
+      const password = loginForm['password'].value;
+      loginUser(email, password)
+        .then(() => {
+          window.location.href = 'dashboard.html'; // Redirecionar para o dashboard após login
+        })
+        .catch(err => alert('Erro ao fazer login: ' + err.message));
+    });
+  }
 
-// Função para logar o usuário
-export const loginUser = (email, password) => {
-  return firebase.auth().signInWithEmailAndPassword(email, password);
-};
+  // Registro
+  if (registerForm) {
+    registerForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const email = registerForm['email'].value;
+      const password = registerForm['password'].value;
+      registerUser(email, password)
+        .then(() => {
+          window.location.href = 'login.html'; // Redireciona para o login após registro
+        })
+        .catch(err => alert('Erro ao registrar: ' + err.message));
+    });
+  }
 
-// Função para deslogar o usuário
-export const logoutUser = () => {
-  return firebase.auth().signOut();
-};
+  // Logout
+  if (logoutButton) {
+    logoutButton.addEventListener("click", () => {
+      logoutUser()
+        .then(() => {
+          window.location.href = 'login.html'; // Redirecionar para login após logout
+        })
+        .catch(err => console.error('Erro ao sair:', err));
+    });
+  }
+
+  // Função para carregar as runs
+  function loadRuns() {
+    getRuns().then(snapshot => {
+      const runs = snapshot.val(); // Pega os dados do Firebase
+
+      // Exibir as runs pendentes e aprovadas
+      runsList.innerHTML = '';
+      runsToApprove.innerHTML = '';
+      Object.keys(runs).forEach(runId => {
+        const run = runs[runId];
+        const runItem = document.createElement('div');
+        runItem.className = 'run-item';
+        runItem.innerHTML = `
+          <span>${run.user} - ${run.score} (${run.status})</span>
+        `;
+        runsList.appendChild(runItem);
+
+        // Exibir as runs pendentes para aprovação
+        if (run.status === 'Pendente') {
+          const approvalItem = document.createElement('li');
+          approvalItem.innerHTML = `
+            <span>${run.user} - ${run.score}</span>
+            <button onclick="approveRun('${runId}')">Aprovar</button>
+          `;
+          runsToApprove.appendChild(approvalItem);
+        }
+      });
+    });
+  }
+
+  // Função para aprovar uma run
+  window.approveRun = (runId) => {
+    const db = firebase.database();
+    const runRef = db.ref('runs').child(runId);
+    runRef.update({ status: 'Aprovada' }) // Altera o status da run para 'Aprovada'
+      .then(() => {
+        loadRuns(); // Atualiza a lista de runs após a aprovação
+      })
+      .catch(err => console.error('Erro ao aprovar a run:', err));
+  };
+});
