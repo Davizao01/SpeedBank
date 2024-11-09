@@ -1,42 +1,39 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpeedBank.com</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpeedBank - Speedrun</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>SpeedBank.com</h1>
+  <header>
+    <h1>SpeedBank - Speedrun</h1>
+  </header>
 
-        <!-- Formulário de Login -->
-        <div id="login-form">
-            <h2>Login</h2>
-            <input type="email" id="email" placeholder="Digite seu e-mail" />
-            <input type="password" id="password" placeholder="Digite sua senha" />
-            <button onclick="loginUser()">Entrar</button>
-            <p id="login-error" class="error-message"></p>
-        </div>
+  <main>
+    <h2>Categorias de Speedrun</h2>
+    <ul id="categories">
+      <li>1000R$ %</li>
+      <li>2000R$ %</li>
+      <li>10000R$ %</li>
+      <li>1M R$ %</li>
+    </ul>
 
-        <!-- Lista de Categorias -->
-        <div id="categories">
-            <h2>1000R$ %</h2>
-            <ul>
-                <li>Categoria 1</li>
-                <li>Categoria 2</li>
-                <li>Categoria 3</li>
-            </ul>
-        </div>
+    <h3>Enviar sua Speedrun</h3>
+    <form id="speedrunForm">
+      <input type="text" id="runCategory" placeholder="Escolha uma categoria" required>
+      <input type="text" id="runTime" placeholder="Tempo da run" required>
+      <textarea id="runDetails" placeholder="Detalhes da run" required></textarea>
+      <button type="submit">Submeter Run</button>
+    </form>
 
-        <div id="links">
-            <button onclick="window.location.href='https://github.com/Davizao01/SpeedBank/tree/main'">Acessar Repositório</button>
-        </div>
+    <div id="userStatus">
+      <button onclick="location.href='login.html'">Login</button>
     </div>
+  </main>
 
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-    <script src="firebase.js"></script>
-    <script src="script.js"></script>
+  <script src="firebase.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
