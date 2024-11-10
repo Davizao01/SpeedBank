@@ -4,33 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SpeedBank - Speedrun</title>
+  <!-- Adicionando o SDK do Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script> 
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
   <link rel="stylesheet" href="styles.css">
-  
-  <!-- Script para o Firebase -->
-  <script type="module">
-    // Importando o Firebase
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js';
-    import { getAuth } from 'https://www.gstatic.com/firebasejs/9.9.3/firebase-auth.js';
-    import { getDatabase } from 'https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js';
-    
-    // Sua configuração do Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyBiZLQyXq4yCRbX3k7A3K5j5fA2r9JO2VE",
-      authDomain: "speedbank-10cda.firebaseapp.com",
-      projectId: "speedbank-10cda",
-      storageBucket: "speedbank-10cda.appspot.com",
-      messagingSenderId: "199708705722",
-      appId: "1:199708705722:web:4e9b9280c5b60e8c14f734",
-      measurementId: "G-2ZQ7LZK29F"
-    };
-    
-    // Inicializando o Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const database = getDatabase(app);
-    
-    // Agora você pode usar os serviços do Firebase, como o auth e database
-  </script>
 </head>
 <body>
   <header>
@@ -38,33 +16,28 @@
   </header>
 
   <main>
-    <section>
-      <h2>Categorias de Speedrun</h2>
-      <ul id="categories">
-        <li>1000R$ %</li>
-        <li>2000R$ %</li>
-        <li>10000R$ %</li>
-        <li>1M R$ %</li>
-      </ul>
-    </section>
+    <h2>Categorias de Speedrun</h2>
+    <ul id="categories">
+      <li>1000R$ %</li>
+      <li>2000R$ %</li>
+      <li>10000R$ %</li>
+      <li>1M R$ %</li>
+    </ul>
 
-    <section>
-      <h3>Enviar sua Speedrun</h3>
-      <form id="speedrunForm">
-        <input type="text" id="runCategory" placeholder="Escolha uma categoria" required>
-        <input type="text" id="runTime" placeholder="Tempo da run" required>
-        <textarea id="runDetails" placeholder="Detalhes da run" required></textarea>
-        <button type="submit">Submeter Run</button>
-      </form>
-    </section>
+    <h3>Enviar sua Speedrun</h3>
+    <form id="speedrunForm">
+      <input type="text" id="runCategory" placeholder="Escolha uma categoria" required>
+      <input type="text" id="runTime" placeholder="Tempo da run" required>
+      <textarea id="runDetails" placeholder="Detalhes da run" required></textarea>
+      <button type="submit">Submeter Run</button>
+    </form>
 
-    <section id="userStatus">
+    <div id="userStatus">
       <button onclick="location.href='login.html'">Login</button>
-    </section>
-    
-    <div id="feedback" class="hidden"></div>
+    </div>
   </main>
 
+  <script src="firebase.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
