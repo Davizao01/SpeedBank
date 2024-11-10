@@ -1,21 +1,17 @@
-// script.js
-
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("login-form");
-  const userEmailDisplay = document.getElementById("user-email");
 
-  // 1. Verificar se o usuário está logado
+  // Verificar se o usuário já está logado
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
-      // Usuário logado, redireciona para o dashboard (página principal)
-      window.location.href = 'dashboard.html';
+      // Usuário logado, redireciona para o dashboard
+      window.location.href = 'dashboard.html';  // Ou 'index.html', caso prefira
     } else {
-      // Usuário não logado, pode continuar na página de login ou exibir mensagem
       console.log('Usuário não logado');
     }
   });
 
-  // 2. Login
+  // Processo de login
   if (loginForm) {
     loginForm.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -24,28 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       firebase.auth().signInWithEmailAndPassword(email, password)
         .then(() => {
-          // Após login bem-sucedido, redireciona para o dashboard
-          window.location.href = 'dashboard.html';
+          // Redirecionamento após login bem-sucedido
+          window.location.href = 'dashboard.html'; // Ou 'index.html'
         })
         .catch((err) => {
-          // Exibe um erro caso o login falhe
           alert('Erro ao fazer login: ' + err.message);
-        });
-    });
-  }
-
-  // 3. Logout
-  const logoutButton = document.getElementById("logout-btn");
-  if (logoutButton) {
-    logoutButton.addEventListener("click", () => {
-      firebase.auth().signOut()
-        .then(() => {
-          // Após logout, redireciona para a página de login
-          window.location.href = 'login.html';
-        })
-        .catch((err) => {
-          // Exibe um erro caso o logout falhe
-          alert('Erro ao fazer logout: ' + err.message);
         });
     });
   }
