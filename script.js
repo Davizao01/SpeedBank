@@ -1,3 +1,5 @@
+// script.js
+
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("login-form");
   const userEmailDisplay = document.getElementById("user-email");
