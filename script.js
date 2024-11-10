@@ -1,54 +1,29 @@
-// script.js
-document.addEventListener('DOMContentLoaded', () => {
-  const loginButton = document.getElementById('loginButton');
-  const logoutButton = document.getElementById('logoutButton');
+document.addEventListener("DOMContentLoaded", () => {
+  const loginForm = document.getElementById("login-form");
+  const userEmailDisplay = document.getElementById("user-email");
 
-  // Verifica se o usuário está logado
-  firebase.auth().onAuthStateChanged((user) => {
+  // Verifique se o usuário está logado
+  firebase.auth().onAuthStateChanged(user => {
     if (user) {
-      loginButton.style.display = 'none';
-      logoutButton.style.display = 'inline-block';
-    } else {
-      loginButton.style.display = 'inline-block';
-      logoutButton.style.display = 'none';
+      userEmailDisplay.textContent = `Logado como: ${user.email}`;
+      window.location.href = 'dashboard.html';  // Redireciona para o painel após o login
     }
   });
 
-  // Evento para logout
-  logoutButton.addEventListener('click', () => {
-    firebase.auth().signOut().then(() => {
-      window.location.href = 'login.html';
-    }).catch((error) => {
-      console.error("Erro ao sair:", error);
+  // Login
+  if (loginForm) {
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const email = loginForm['email'].value;
+      const password = loginForm['password'].value;
+      
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(() => {
+          window.location.href = 'dashboard.html'; // Redireciona para o painel após o login
+        })
+        .catch((err) => {
+          alert('Erro ao fazer login: ' + err.message);  // Exibe um erro caso o login falhe
+        });
     });
-  });
-
-  // Envio de Speedrun
-  const speedrunForm = document.getElementById('speedrunForm');
-  speedrunForm.addEventListener('submit', (e) => {
-    e.preventDefault(); // Previne o comportamento padrão de envio do formulário
-
-    const category = document.getElementById('runCategory').value;
-    const time = document.getElementById('runTime').value;
-    const details = document.getElementById('runDetails').value;
-
-    const user = firebase.auth().currentUser;
-    if (user) {
-      const runId = 'run_' + Date.now();
-      firebase.database().ref('runs/' + runId).set({
-        user: user.email,
-        category,
-        time,
-        details,
-        status: 'Pendente'
-      }).then(() => {
-        alert('Speedrun enviada com sucesso!');
-        speedrunForm.reset();
-      }).catch((error) => {
-        console.error('Erro ao enviar a run:', error);
-      });
-    } else {
-      alert('Você precisa estar logado para enviar uma run!');
-    }
-  });
+  }
 });
