@@ -1,31 +1,96 @@
+// Login com Nickname
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("login-form");
 
-  // Verificar se o usuário já está logado
-  firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-      // Usuário logado, redireciona para o dashboard
-      window.location.href = 'dashboard.html';  // Ou 'index.html', caso prefira
-    } else {
-      console.log('Usuário não logado');
-    }
-  });
+  // Verificar se o nickname está salvo no localStorage
+  const savedNick = localStorage.getItem("nickname");
+  if (savedNick) {
+    // Se o nickname já estiver salvo, redireciona para o dashboard
+    window.location.href = 'dashboard.html';
+  }
 
-  // Processo de login
+  // Processo de login com nickname
   if (loginForm) {
     loginForm.addEventListener("submit", (event) => {
       event.preventDefault();
-      const email = loginForm['email'].value;
-      const password = loginForm['password'].value;
+      const nickname = loginForm['nickname'].value;
 
-      firebase.auth().signInWithEmailAndPassword(email, password)
+      // Salva o nickname no localStorage
+      localStorage.setItem("nickname", nickname);
+
+      // Redireciona para a página de dashboard
+      window.location.href = 'dashboard.html';
+    });
+  }
+});
+
+// Enviar uma run para o Firebase
+document.addEventListener("DOMContentLoaded", () => {
+  const speedrunForm = document.getElementById("speedrun-form");
+
+  // Obter o nickname do localStorage
+  const nickname = localStorage.getItem("nickname");
+
+  if (!nickname) {
+    alert("Você precisa fazer login primeiro!");
+    window.location.href = "login.html"; // Redireciona para o login se não houver nickname
+    return;
+  }
+
+  // Submeter a run
+  if (speedrunForm) {
+    speedrunForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const category = speedrunForm['category'].value;
+      const time = speedrunForm['time'].value;
+      const details = speedrunForm['details'].value;
+
+      // Salvar no Firebase
+      const dbRef = firebase.database().ref("runs/");
+      const newRun = {
+        nickname: nickname,
+        category: category,
+        time: time,
+        details: details,
+        date: new Date().toISOString(),
+      };
+
+      dbRef.push(newRun)
         .then(() => {
-          // Redirecionamento após login bem-sucedido
-          window.location.href = 'dashboard.html'; // Ou 'index.html'
+          alert("Sua run foi submetida com sucesso!");
+          speedrunForm.reset(); // Reseta o formulário após envio
         })
-        .catch((err) => {
-          alert('Erro ao fazer login: ' + err.message);
+        .catch((error) => {
+          alert("Erro ao submeter a run: " + error.message);
         });
     });
   }
+});
+
+// Exibir as runs no Dashboard
+document.addEventListener("DOMContentLoaded", () => {
+  const nickname = localStorage.getItem("nickname");
+
+  if (!nickname) {
+    alert("Você precisa fazer login primeiro!");
+    window.location.href = "login.html"; // Redireciona para o login se não houver nickname
+    return;
+  }
+
+  const runsList = document.getElementById("runs-list");
+
+  // Carregar as runs do Firebase
+  const dbRef = firebase.database().ref("runs/");
+  dbRef.on("value", (snapshot) => {
+    const runs = snapshot.val();
+    runsList.innerHTML = ""; // Limpa a lista antes de adicionar os novos elementos
+
+    for (let key in runs) {
+      const run = runs[key];
+      const listItem = document.createElement("li");
+      listItem.innerHTML = `<strong>${run.nickname}</strong> - ${run.category} - ${run.time}`;
+      runsList.appendChild(listItem);
+    }
+  });
 });
