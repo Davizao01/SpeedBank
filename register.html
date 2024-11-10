@@ -1,20 +1,20 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const registerForm = document.getElementById("register-form");
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script> 
+</head>
+<body>
+  <form id="register-form">
+    <input type="email" name="email" placeholder="Digite seu e-mail" required>
+    <input type="password" name="password" placeholder="Digite sua senha" required>
+    <button type="submit">Registrar</button>
+  </form>
 
-  if (registerForm) {
-    registerForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const email = registerForm['email'].value;
-      const password = registerForm['password'].value;
-
-      firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          // Redireciona para o login ou dashboard após o registro bem-sucedido
-          window.location.href = 'login.html'; // Ou 'dashboard.html', dependendo do fluxo
-        })
-        .catch((err) => {
-          alert('Erro ao registrar: ' + err.message);
-        });
-    });
-  }
-});
+  <script src="firebase.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
