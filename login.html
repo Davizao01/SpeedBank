@@ -1,29 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - SpeedBank.com</title>
-    <link rel="stylesheet" href="style.css"> <!-- Link para o CSS -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script> 
 </head>
 <body>
-    <div class="container">
-        <h2>Login na Conta</h2>
-        <form id="login-form">
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required placeholder="Digite seu email">
-            </div>
-            <div class="form-group">
-                <label for="password">Senha:</label>
-                <input type="password" id="password" name="password" required placeholder="Digite sua senha">
-            </div>
-            <button type="submit">Entrar</button>
-        </form>
-        <p>Não tem uma conta? <a href="register.html">Registre-se</a></p>
-    </div>
-
-    <script src="firebase.js"></script> <!-- Link para o firebase.js -->
-    <script src="script.js"></script> <!-- Link para o script.js -->
+  <form id="login-form">
+    <input type="email" name="email" placeholder="Digite seu e-mail" required>
+    <input type="password" name="password" placeholder="Digite sua senha" required>
+    <button type="submit">Login</button>
+  </form>
+  
+  <script src="firebase.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
