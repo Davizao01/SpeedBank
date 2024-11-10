@@ -66,3 +66,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+// Publicar uma nova Run
+document.addEventListener("DOMContentLoaded", () => {
+  const runForm = document.getElementById("run-form");
+
+  if (runForm) {
+    runForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const category = runForm['run-category'].value;
+      const time = runForm['run-time'].value;
+      const nickname = localStorage.getItem("nickname");
+
+      if (!nickname) {
+        alert("Você precisa estar logado para publicar uma run!");
+        return;
+      }
+
+      // Referência para o Firebase
+      const newRunRef = firebase.database().ref("runs/").push();
+
+      // Salvar a nova run no Firebase
+      newRunRef.set({
+        nickname: nickname,
+        category: category,
+        time: time,
+      });
+
+      // Limpar o formulário
+      runForm.reset();
+
+      // Atualizar a lista de runs após a publicação
+      alert("Run publicada com sucesso!");
+    });
+  }
+});
