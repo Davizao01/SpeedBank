@@ -1,13 +1,22 @@
+// Checar se o usuário está logado, se não, redirecionar para o login
+document.addEventListener("DOMContentLoaded", () => {
+  const nickname = localStorage.getItem("nickname");
+
+  if (!nickname) {
+    // Se não tiver um nickname salvo, redireciona para o login
+    window.location.href = "login.html";
+    return;
+  }
+
+  // Se tiver um nickname salvo, redireciona para o dashboard
+  if (window.location.pathname === "/login.html") {
+    window.location.href = "dashboard.html";
+  }
+});
+
 // Login com Nickname
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("login-form");
-
-  // Verificar se o nickname está salvo no localStorage
-  const savedNick = localStorage.getItem("nickname");
-  if (savedNick) {
-    // Se o nickname já estiver salvo, redireciona para o dashboard
-    window.location.href = 'dashboard.html';
-  }
 
   // Processo de login com nickname
   if (loginForm) {
