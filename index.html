@@ -4,15 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SpeedBank - Speedrun</title>
-  <!-- Link para o CSS -->
   <link rel="stylesheet" href="styles.css">
   
-  <!-- Incluindo o Firebase -->
+  <!-- Script para o Firebase -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js";
-    import { getAuth } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-auth.js";
-    import { getDatabase } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js";
+    // Importando o Firebase
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js';
+    import { getAuth } from 'https://www.gstatic.com/firebasejs/9.9.3/firebase-auth.js';
+    import { getDatabase } from 'https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js';
     
+    // Sua configuração do Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBiZLQyXq4yCRbX3k7A3K5j5fA2r9JO2VE",
       authDomain: "speedbank-10cda.firebaseapp.com",
@@ -22,11 +23,13 @@
       appId: "1:199708705722:web:4e9b9280c5b60e8c14f734",
       measurementId: "G-2ZQ7LZK29F"
     };
-
-    // Inicializa o Firebase
+    
+    // Inicializando o Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const database = getDatabase(app);
+    
+    // Agora você pode usar os serviços do Firebase, como o auth e database
   </script>
 </head>
 <body>
@@ -59,11 +62,9 @@
       <button onclick="location.href='login.html'">Login</button>
     </section>
     
-    <!-- Feedback para o usuário -->
     <div id="feedback" class="hidden"></div>
   </main>
 
-  <!-- Scripts -->
   <script src="script.js"></script>
 </body>
 </html>
