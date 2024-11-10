@@ -1,6 +1,4 @@
-// firebase.js
-
-// Sua configuração do Firebase
+// Configuração do Firebase
 const firebaseConfig = {
   apiKey: 'AIzaSyBiZLQyXq4yCRbX3k7A3K5j5fA2r9JO2VE',
   authDomain: 'speedbank-10cda.firebaseapp.com',
@@ -8,8 +6,9 @@ const firebaseConfig = {
   storageBucket: 'speedbank-10cda.appspot.com',
   messagingSenderId: '199708705722',
   appId: '1:199708705722:web:4e9b9280c5b60e8c14f734',
-  measurementId: 'G-2ZQ7LZK29F'
+  measurementId: 'G-2ZQ7LZK29F',
 };
 
 // Inicializa o Firebase
-firebase.initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
+const database = firebase.database(app);
